@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CarRacing</string>
+    <string name="Rigth">Rigth</string>
+    <string name="Left">Left</string>
+</resources>
