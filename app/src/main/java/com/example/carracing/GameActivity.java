@@ -25,6 +25,7 @@ public class GameActivity extends AppCompatActivity {
     final Handler timerHandler = new Handler();
     Runnable timerRunnable;
     private TextView main_text_score;
+    private boolean checkActiveStatus;
 
 
     @Override
@@ -103,6 +104,7 @@ public class GameActivity extends AppCompatActivity {
     {
         timerRunnable = new Runnable()
         {
+
             @Override
             public void run()
             {
@@ -150,5 +152,21 @@ public class GameActivity extends AppCompatActivity {
         Intent intent = new Intent(GameActivity.this, GameOver.class);
         startActivity(intent );
         GameActivity.this.finish();
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        timerHandler.removeCallbacks(timerRunnable);
+    }
+
+    /**
+     * When the player returns to the activity it starts from the place he left it
+     */
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        timerHandler.postDelayed(timerRunnable, 300);
     }
 }
