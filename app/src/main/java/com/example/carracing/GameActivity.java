@@ -162,7 +162,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
-     * When the player returns to the activity it starts from the place he left it
+     * When the player returns to the activity it starts from the place he left it!
      */
     @Override
     protected void onRestart() {
