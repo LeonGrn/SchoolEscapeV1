@@ -8,25 +8,34 @@ import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.BounceInterpolator;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
 
     private ImageView main_imgView_lifeScore;
     private Button main_btn_leftbtn;
     private Button main_btn_rigthbtn;
-    private ImageView[] obstacleImg;
-    private ImageView[] carImg;
+    private ImageView[] obstacleImg = new ImageView[40];
     private Game mygame = null;
     private ImageView[] lifeImage;
     private int gameOver = 3;
-    final Handler timerHandler = new Handler();
-    Runnable timerRunnable;
+    private final Handler timerHandler = new Handler();
+    private Runnable timerRunnable;
     private TextView main_text_score;
-    private boolean checkActiveStatus;
-
+    private GridLayout main_LAY_gridlayout;
+    private int speedUp = 1;
+    private static int chooseSpeed = 0;
+    private int fastMode = 300;
+    private int slowMode = 500;
+    private int score = 0;
+    ArrayList<Integer> ScoreTable = new ArrayList<>();
+    MySharedPreferences msp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,38 +48,15 @@ public class GameActivity extends AppCompatActivity {
         main_text_score = findViewById(R.id.main_text_score);
         main_btn_leftbtn = findViewById(R.id.leftClick);
         main_btn_rigthbtn = findViewById(R.id.rigthClick);
+        main_LAY_gridlayout = findViewById(R.id.main_LAY_gridview);
 
-        obstacleImg = new ImageView[]//all obstacles in the game
-        {
-                findViewById(R.id.imageView0),
-                findViewById(R.id.imageView1),
-                findViewById(R.id.imageView2),
-                findViewById(R.id.imageView3),
-                findViewById(R.id.imageView4),
-                findViewById(R.id.imageView5),
-                findViewById(R.id.imageView6),
-                findViewById(R.id.imageView7),
-                findViewById(R.id.imageView8),
-                findViewById(R.id.imageView9),
-                findViewById(R.id.imageView10),
-                findViewById(R.id.imageView11),
-                findViewById(R.id.imageView12),
-                findViewById(R.id.imageView13),
-                findViewById(R.id.imageView14),
-                findViewById(R.id.imageView15),
-                findViewById(R.id.imageView16),
-                findViewById(R.id.imageView17),
-                findViewById(R.id.imageView21),
-                findViewById(R.id.imageView22),
-                findViewById(R.id.imageView23),
-        };
+        msp = new MySharedPreferences(this);
 
-        carImg = new ImageView[]//car
+        for(int i = 0 ; i < obstacleImg.length ; i++)
         {
-                findViewById(R.id.imageView18),
-                findViewById(R.id.imageView19),
-                findViewById(R.id.imageView20),
-        };
+            obstacleImg[i] = (ImageView) main_LAY_gridlayout.getChildAt(i);
+        }
+
 
         lifeImage = new ImageView[]// life image
         {
@@ -79,28 +65,30 @@ public class GameActivity extends AppCompatActivity {
                findViewById(R.id.likeImage3),
         };
 
+        obstacleImg[37].setImageResource(R.drawable.ic_student);
+        mygame = new Game();
         main_btn_leftbtn.setOnClickListener(changeDirection);
         main_btn_rigthbtn.setOnClickListener(changeDirection);
 
-
-        for(int i = 0; i < obstacleImg.length ; i++)//init
+        switch (getIntent().getExtras().getString("mode"))
         {
-            obstacleImg[i].setVisibility(View.INVISIBLE);
+            case "Slow":
+                chooseSpeed = slowMode;
+                loopFun(chooseSpeed );
+                break;
+
+            case "Fast":
+                chooseSpeed = fastMode;
+                loopFun(chooseSpeed );
+                break;
+
+            case "SS":
+
+                break;
         }
-
-        for(int i = 0; i < carImg.length ; i++)
-        {
-            carImg[i].setVisibility(View.INVISIBLE);
-        }
-
-        carImg[1].setVisibility(View.VISIBLE);
-
-        mygame = new Game();
-
-        loopFun();
     }
 
-    private void loopFun()//timer
+    private void loopFun(int chooseSpeed )//timer
     {
         timerRunnable = new Runnable()
         {
@@ -108,16 +96,23 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-                    loopFun();
+                    loopFun(GameActivity.chooseSpeed );
 
-                    gameOver -= mygame.gameProcces(obstacleImg, GameActivity.this ,main_text_score);
+                    gameOver -= mygame.gameProcces(obstacleImg, GameActivity.this);
                     mygame.drawScene(obstacleImg);
+
+                    score = mygame.getScore();
+                    main_text_score.setText("SCORE: " + score);
 
                     if(gameOver > -1 && gameOver < 3)
                     {
-                        lifeImage[gameOver].setVisibility(View.INVISIBLE);
+                        animateItCode(lifeImage[gameOver]);
                         if(gameOver == 0)
                         {
+
+                            msp.putInt("Score" , score);
+                            ScoreTable.add(score);
+
                             resetGame();//reset the gmae after lose
                             timerHandler.removeCallbacks(timerRunnable);//timer
                             goToGameActivity();//go to next activity
@@ -126,7 +121,7 @@ public class GameActivity extends AppCompatActivity {
 
             }
         };
-        timerHandler.postDelayed(timerRunnable, 300);
+        timerHandler.postDelayed(timerRunnable, chooseSpeed);
     }
 
 
@@ -136,7 +131,7 @@ public class GameActivity extends AppCompatActivity {
         public void onClick(View v)
         {
            String move = v.getResources().getResourceEntryName(v.getId());
-           mygame.changeCarPosition(move, carImg);
+           mygame.changeCarPosition(move, obstacleImg);
         }
     };
 
@@ -150,8 +145,9 @@ public class GameActivity extends AppCompatActivity {
     private  void goToGameActivity()
     {
         Intent intent = new Intent(GameActivity.this, GameOver.class);
+        intent.putExtra("score", score + "");
         startActivity(intent );
-        GameActivity.this.finish();
+        finish();
     }
 
 
@@ -167,6 +163,11 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        timerHandler.postDelayed(timerRunnable, 300);
+        timerHandler.postDelayed(timerRunnable, chooseSpeed);
+    }
+
+    private void animateItCode(ImageView lifeImg)
+    {
+        lifeImg.animate().scaleX(0).scaleY(0).setDuration(1500).setInterpolator(new BounceInterpolator()).start();
     }
 }

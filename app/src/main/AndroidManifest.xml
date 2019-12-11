@@ -9,13 +9,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="School Escape"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:screenOrientation="portrait"
         android:supportsRtl="false"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        android:screenOrientation="portrait">
-
-        <activity android:name=".GameActivity"/>
-        <activity android:name=".GameOver"/>
-        <activity android:name=".MenuActivity"/>
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".TopScoreActivity"></activity>
+        <activity android:name=".GameActivity" />
+        <activity android:name=".GameOver" />
+        <activity android:name=".MenuActivity" />
         <activity android:name=".IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

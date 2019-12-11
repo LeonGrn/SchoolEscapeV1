@@ -12,8 +12,10 @@ import android.widget.Button;
 public class MenuActivity extends AppCompatActivity
 {
 
-    private Button menu_start_Btn;
+    private Button menu_slow_Btn;
+    private Button menu_fast_Btn;
     private Button menu_start_topscore;
+    public static String mode = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -23,10 +25,12 @@ public class MenuActivity extends AppCompatActivity
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_menu);
 
-        menu_start_Btn = findViewById(R.id.menu_start_Btn);
+        menu_slow_Btn = findViewById(R.id.menu_slow_Btn);
+        menu_fast_Btn = findViewById(R.id.menu_fast_Btn);
         menu_start_topscore = findViewById(R.id.menu_start_topscore);
 
-        menu_start_Btn.setOnClickListener(goNext);
+        menu_slow_Btn.setOnClickListener(goNext);
+        menu_fast_Btn.setOnClickListener(goNext);
         menu_start_topscore.setOnClickListener(goTopScore);
 
 
@@ -37,7 +41,19 @@ public class MenuActivity extends AppCompatActivity
         @Override
         public void onClick(View v)
         {
-            goToGameActivity();
+            String choosenMode = v.getResources().getResourceEntryName(v.getId());
+            switch (choosenMode)
+            {
+                case "menu_slow_Btn":
+                    mode = "Slow";
+                    goToGameActivity();
+                    break;
+
+                case "menu_fast_Btn":
+                    mode = "Fast";
+                    goToGameActivity();
+                    break;
+            }
         }
     };
 
@@ -46,13 +62,18 @@ public class MenuActivity extends AppCompatActivity
         @Override
         public void onClick(View v)
         {
-
+            Intent intent = new Intent(MenuActivity.this, TopScoreActivity.class);
+            //intent.putExtra("score", getIntent().getExtras().getString("score"));
+            startActivity(intent);
+            finish();
         }
     };
 
     private  void goToGameActivity()
     {
         Intent intent = new Intent(MenuActivity.this, GameActivity.class);
+        intent.putExtra("mode" ,mode);
         startActivity(intent);
+        finish();
     }
 }

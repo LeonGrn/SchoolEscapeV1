@@ -44,5 +44,6 @@ public class IntroActivity extends AppCompatActivity
     {
         Intent intent = new Intent(IntroActivity.this, MenuActivity.class);
         startActivity(intent);
+        finish();
     }
 }

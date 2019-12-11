@@ -2,7 +2,6 @@ package com.example.carracing;
 
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,35 +9,37 @@ import java.util.ArrayList;
 
 public class Game
 {
-    private final int CAR = 2;
+    private final int COIN = 3;
+    private final int STUDENT = 2;
     private final int ROCK = 1;
     private final int EMPTY = 0;
-    private int gameObjects[] = {EMPTY , ROCK , CAR};
+
+    public int tempScore = 0;
+    private int gameObjects[] = {EMPTY , ROCK , STUDENT , COIN};
     ArrayList<Obstacle> RockPosition = new ArrayList<Obstacle>();
     private int setTime = 0;
-    private Obstacle myCar = new Obstacle( CAR, 1);
-    public int score = 0;
-
+    private Obstacle myStudent = new Obstacle( STUDENT, STUDENT_INITIAL_POSITION);
+    private static final int STUDENT_INITIAL_POSITION = 37;
 
     public void changeCarPosition(String direction, ImageView[] cars)
     {
         switch(direction)
         {
             case "leftClick":
-                if(myCar.getIndex() > 0)
+                if(myStudent.getIndex() > STUDENT_INITIAL_POSITION - 2)
                 {
-                    cars[myCar.getIndex()].setVisibility(View.INVISIBLE);
-                    myCar.setIndex(myCar.getIndex() - 1);
-                    cars[myCar.getIndex()].setVisibility(View.VISIBLE);
+                    cars[myStudent.getIndex()].setImageResource(0);
+                    myStudent.setIndex(myStudent.getIndex() - 1);
+                    cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
                 }
                 break;
 
             case "rigthClick":
-                if(myCar.getIndex() < 2)
+                if(myStudent.getIndex() < STUDENT_INITIAL_POSITION + 2)
                 {
-                    cars[myCar.getIndex()].setVisibility(View.INVISIBLE);
-                    myCar.setIndex(myCar.getIndex() + 1);
-                    cars[myCar.getIndex()].setVisibility(View.VISIBLE);
+                    cars[myStudent.getIndex()].setImageResource(0);
+                    myStudent.setIndex(myStudent.getIndex() + 1);
+                    cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
                 }
                 break;
         }
@@ -46,30 +47,39 @@ public class Game
 
     public int randobstacle()
     {
-        return (int)(Math.random() * 1000) % 3;
+        return (int)(Math.random() * 1000) % 5;
     }
 
-    public int gameProcces(ImageView[] obstacleImg , Context context , TextView main_text_score)
+    public int randType()
     {
+        return (int)(Math.random() * 1000) % 2;
+    }
+
+    public int gameProcces(ImageView[] obstacleImg , Context context)
+    {
+        if(randType() == 0)
+            RockPosition.add(new Obstacle( ROCK, randobstacle()));
+        else
+            RockPosition.add(new Obstacle( COIN, randobstacle()));
+
+
         for(int i = RockPosition.size() - 1 ; i >= 0; i--)
         {
             int inx = RockPosition.get(i).getIndex();
-            if(inx + 3 < obstacleImg.length)
-                RockPosition.get(i).setIndex(inx + 3);
+            if(inx + 5 < obstacleImg.length)
+                RockPosition.get(i).setIndex(inx + 5);
             else
                 RockPosition.remove(i);
         }
-        if(setTime % 2 == 0)//Create only one time rock
-        {
-            RockPosition.add(new Obstacle( ROCK, randobstacle()));
-            Log.i("Time:" , " " + setTime);
-        }
+//        if(setTime % 2 == 0)//Create only one time rock
+//        {
+//            RockPosition.add(new Obstacle( ROCK, randobstacle()));
+//            Log.i("Time:" , " " + setTime);
+//        }
 
         setTime += 1;
-        setScore(10);
-        main_text_score.setText("SCORE: " + score);
 
-        if(crash(obstacleImg) == 1)
+        if(crash(obstacleImg ) == 1)
         {
             MySignal.vibrate(context, 400);
             Toast.makeText(context , "BOOM! " , Toast.LENGTH_SHORT ).show();
@@ -84,19 +94,37 @@ public class Game
     public void drawScene(ImageView[] obstacleImg)//draw the rocks on the map
     {
         for (int i = 0 ; i < obstacleImg.length; i++)
-            obstacleImg[i].setVisibility(View.INVISIBLE);
+        {
+            if(i != myStudent.getIndex())
+                obstacleImg[i].setImageResource(0);
+        }
+
         for (int n = 0 ; n < RockPosition.size(); n++)
-            obstacleImg[RockPosition.get(n).getIndex()].setVisibility(View.VISIBLE);
+        {
+            if(RockPosition.get(n).getType() == ROCK)
+                obstacleImg[RockPosition.get(n).getIndex()].setImageResource(R.drawable.ic_rockimage);
+            if(RockPosition.get(n).getType() == COIN)
+                obstacleImg[RockPosition.get(n).getIndex()].setImageResource(R.drawable.ic_goodgrade);
+
+        }
+
     }
 
-    public int crash(ImageView[] obstacleImg)//check crashes
+    public int crash(ImageView[] obstacleImg )//check crashes
     {
         for (int i = 0 ; i < RockPosition.size()  ; i++)
         {
-            if (RockPosition.get(i).getType() == ROCK && RockPosition.get(i).getIndex() == myCar.getIndex() + 18)
+            if (RockPosition.get(i).getType() == ROCK && RockPosition.get(i).getIndex() == myStudent.getIndex())
             {
                 RockPosition.remove(i);
                 return 1;
+            }
+            if(RockPosition.get(i).getType() == COIN && RockPosition.get(i).getIndex() == myStudent.getIndex())
+            {
+
+                setScore(10);
+                RockPosition.remove(i);
+                return 0;
             }
         }
         return 0;
@@ -112,14 +140,12 @@ public class Game
         setTime = 0;
     }
 
-    public static int getScore(int score)//its doesnt done (in the second game will work
+    public void setScore(int tempScore)
     {
-        return score;
+        this.tempScore += tempScore;
     }
-
-    public void setScore(int score)
+    public int getScore()
     {
-        this.score += score;
+        return tempScore;
     }
-
 }

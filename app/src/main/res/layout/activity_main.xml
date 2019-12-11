@@ -80,218 +80,341 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/roadLane"
-        android:layout_width="392dp"
-        android:layout_height="639dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:visibility="visible"
-        app:columnCount="3"
-        app:layout_constraintBottom_toBottomOf="@+id/leftClick"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:rowCount="7"
-        tools:visibility="visible">
+    <GridLayout
+        android:id="@+id/main_LAY_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:rowCount="8"
+        android:columnCount="5">
 
         <ImageView
-            android:id="@+id/imageView0"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            android:background="#00FFEB3B"
-            android:foregroundTint="#0003A9F4"
-            app:layout_column="0"
-            app:layout_row="0"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="1"
-            app:layout_row="0"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="2"
-            app:layout_row="0"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="0"
-            app:layout_row="1"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="1"
-            app:layout_row="1"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="2"
-            app:layout_row="1"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="0"
-            app:layout_row="2"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView7"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="1"
-            app:layout_row="2"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView8"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="2"
-            app:layout_row="2"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView9"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="0"
-            app:layout_row="3"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView10"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="1"
-            app:layout_row="3"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView11"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="2"
-            app:layout_row="3"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView12"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="0"
-            app:layout_row="4"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView13"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="1"
-            app:layout_row="4"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView14"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="2"
-            app:layout_row="4"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView15"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="0"
-            app:layout_row="5"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView16"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="1"
-            app:layout_row="5"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView17"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="2"
-            app:layout_row="5"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView18"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="0"
-            app:layout_row="6"
-            app:srcCompat="@drawable/ic_car" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView21"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="0"
-            app:layout_row="6"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView19"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="1"
-            app:layout_row="6"
-            app:srcCompat="@drawable/ic_car" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView22"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="1"
-            app:layout_row="6"
-            app:srcCompat="@drawable/ic_rockimage" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView20"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="2"
-            app:layout_row="6"
-            app:srcCompat="@drawable/ic_car" />
-
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
         <ImageView
-            android:id="@+id/imageView23"
-            android:layout_width="125dp"
-            android:layout_height="80dp"
-            app:layout_column="2"
-            app:layout_row="6"
-            app:srcCompat="@drawable/ic_rockimage" />
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:layout_margin="5dp"/>
 
-    </androidx.gridlayout.widget.GridLayout>
+
+
+
+    </GridLayout>
+
 
     <TextView
         android:id="@+id/main_text_score"
