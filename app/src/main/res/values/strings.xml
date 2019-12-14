@@ -3,4 +3,5 @@
     <string name="Rigth">Rigth</string>
     <string name="Left">Left</string>
     <string name="title_activity_top_score">TopScoreActivity</string>
+    <string name="yes_man"></string>
 </resources>
