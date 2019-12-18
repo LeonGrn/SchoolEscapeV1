@@ -1,10 +1,14 @@
 package com.example.carracing;
 
 import android.content.Context;
-import android.util.Log;
+import android.hardware.SensorEvent;
+import android.media.MediaPlayer;
+import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.RawRes;
+
 import java.util.ArrayList;
 
 public class Game
@@ -20,6 +24,27 @@ public class Game
     private int setTime = 0;
     private Obstacle myStudent = new Obstacle( STUDENT, STUDENT_INITIAL_POSITION);
     private static final int STUDENT_INITIAL_POSITION = 37;
+
+    private MediaPlayer mpSound = null;
+
+    public void ssMovement(SensorEvent sensorEvent , ImageView[] cars)
+    {
+        float x = sensorEvent.values[0];
+        if(myStudent.getIndex() > STUDENT_INITIAL_POSITION - 2) {
+            if (x > -3) {
+                cars[myStudent.getIndex()].setImageResource(0);
+                myStudent.setIndex(myStudent.getIndex() - 1);
+                cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
+            }
+        }
+        if(myStudent.getIndex() < STUDENT_INITIAL_POSITION + 2) {
+            if (x < 3) {
+                cars[myStudent.getIndex()].setImageResource(0);
+                myStudent.setIndex(myStudent.getIndex() + 1);
+                cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
+            }
+        }
+    }
 
     public void changeCarPosition(String direction, ImageView[] cars)
     {
@@ -43,6 +68,17 @@ public class Game
                 }
                 break;
         }
+    }
+
+    public void playSound(@RawRes int sound , Context context)
+    {
+        if(mpSound != null) {
+            if (mpSound.isPlaying())
+                mpSound.stop();
+            mpSound.release();
+        }
+        mpSound = MediaPlayer.create(context , sound);
+        mpSound.start();
     }
 
     public int randobstacle()
@@ -79,7 +115,7 @@ public class Game
 
         setTime += 1;
 
-        if(crash(obstacleImg ) == 1)
+        if(crash(obstacleImg  , context) == 1)
         {
             MySignal.vibrate(context, 400);
             Toast.makeText(context , "BOOM! " , Toast.LENGTH_SHORT ).show();
@@ -110,17 +146,20 @@ public class Game
 
     }
 
-    public int crash(ImageView[] obstacleImg )//check crashes
+    public int crash(ImageView[] obstacleImg , Context context)//check crashes
     {
         for (int i = 0 ; i < RockPosition.size()  ; i++)
         {
             if (RockPosition.get(i).getType() == ROCK && RockPosition.get(i).getIndex() == myStudent.getIndex())
             {
+                playSound(R.raw.crash , context);
+
                 RockPosition.remove(i);
                 return 1;
             }
             if(RockPosition.get(i).getType() == COIN && RockPosition.get(i).getIndex() == myStudent.getIndex())
             {
+                playSound( R.raw.collect , context);
 
                 setScore(10);
                 RockPosition.remove(i);
@@ -144,6 +183,7 @@ public class Game
     {
         this.tempScore += tempScore;
     }
+
     public int getScore()
     {
         return tempScore;

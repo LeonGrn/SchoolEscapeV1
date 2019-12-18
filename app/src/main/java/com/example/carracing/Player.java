@@ -2,14 +2,14 @@ package com.example.carracing;
 
 import android.location.Location;
 
-public class Score implements Comparable<Score>
+public class Player implements Comparable<Player>
 {
     private int score = 0;
     private String name = null;
     private double lat = 0;
     private double lon = 0;
 
-    public Score(int score , String name , Location location)
+    public Player(int score , String name , Location location)
     {
         this.score = score;
         this.name = name;
@@ -54,7 +54,7 @@ public class Score implements Comparable<Score>
     }
 
     @Override
-    public int compareTo(Score o)
+    public int compareTo(Player o)
     {
         if(o == null)
             return 0;

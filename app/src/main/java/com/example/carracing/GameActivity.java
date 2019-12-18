@@ -5,12 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,11 +26,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
 
-    private ImageView main_imgView_lifeScore;
     private Button main_btn_leftbtn;
     private Button main_btn_rigthbtn;
     private ImageView[] obstacleImg = new ImageView[40];
@@ -45,11 +46,14 @@ public class GameActivity extends AppCompatActivity {
     private int fastMode = 300;
     private int slowMode = 500;
     private int score = 0;
+    private String name = null;
+    private double lat = 0;
+    private double lon = 0;
+    private SensorManager sensorManager;
+    private Sensor sensor;
+
     MySharedPreferences msp;
     Location myLocation;
-    private String name = null;
-    private Runnable muRunnable;
-    private Handler musicStophandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,10 +62,14 @@ public class GameActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+
         main_text_score = findViewById(R.id.main_text_score);
         main_btn_leftbtn = findViewById(R.id.leftClick);
         main_btn_rigthbtn = findViewById(R.id.rigthClick);
         main_LAY_gridlayout = findViewById(R.id.main_LAY_gridview);
+
+        sensorManager = (SensorManager) getSystemService(GameActivity.SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         msp = new MySharedPreferences(this);
 
@@ -83,37 +91,68 @@ public class GameActivity extends AppCompatActivity {
         main_btn_leftbtn.setOnClickListener(changeDirection);
         main_btn_rigthbtn.setOnClickListener(changeDirection);
 
-        playMusic();
-
+        chooseMode();
     }
 
-    private void loopFun(int chooseSpeed )//timer
+    boolean ssMode = false;
+    private void chooseMode()
+    {
+        switch (getIntent().getExtras().getString("mode"))
+        {
+            case "Slow":
+                chooseSpeed = slowMode;
+                if(ssMode == true)
+                    sensorManager.unregisterListener(sensorEventListener);
+                ssMode = false;
+                loopFun(chooseSpeed );
+                break;
+
+            case "Fast":
+                chooseSpeed = fastMode;
+                if(ssMode == true)
+                    sensorManager.unregisterListener(sensorEventListener);
+                ssMode = false;
+                loopFun(chooseSpeed );
+                break;
+
+            case "ss":
+                chooseSpeed = fastMode;
+                if(ssMode == false)
+                    sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_UI);
+
+                ssMode = true;
+                main_btn_leftbtn.setVisibility(View.GONE);
+                main_btn_rigthbtn.setVisibility(View.GONE);
+                loopFun(chooseSpeed );
+                break;
+        }
+    }
+
+    private void loopFun(int chooseSpeed)//timer
     {
         timerRunnable = new Runnable()
         {
-
             @Override
             public void run()
             {
-                    loopFun(GameActivity.chooseSpeed );
+                loopFun(GameActivity.chooseSpeed);
 
-                    gameOver -= mygame.gameProcces(obstacleImg, GameActivity.this);
-                    mygame.drawScene(obstacleImg);
+                gameOver -= mygame.gameProcces(obstacleImg, GameActivity.this );
+                mygame.drawScene(obstacleImg);
 
-                    score = mygame.getScore();
-                    main_text_score.setText("SCORE: " + score);
+                score = mygame.getScore();
+                main_text_score.setText("SCORE: " + score);
 
-                    if(gameOver > -1 && gameOver < 3)
+                if(gameOver > -1 && gameOver < 3)
+                {
+                    animateItCode(lifeImage[gameOver]);
+                    if(gameOver == 0)
                     {
-                        animateItCode(lifeImage[gameOver]);
-                        if(gameOver == 0)
-                        {
-                            timerHandler.removeCallbacks(timerRunnable);//timer
-                            resetGame();//reset the gmae after lose
-                            addPlayerToScoreView();
-                        }
+                        timerHandler.removeCallbacks(timerRunnable);//timer
+                        resetGame();//reset the gmae after lose
+                        addPlayerToScoreView();
                     }
-
+                }
             }
         };
         timerHandler.postDelayed(timerRunnable, chooseSpeed);
@@ -132,7 +171,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void addPlayerToScoreView()
     {
-        final Score playerInfo = new Score(score , name , myLocation);
+        final Player playerInfo = new Player(score , name , myLocation);
         final EditText result = new EditText(this);
 
         new AlertDialog.Builder(this).setTitle("Game Over!")
@@ -151,14 +190,14 @@ public class GameActivity extends AppCompatActivity {
                 }).setCancelable(false).setView(result).create().show();
     }
 
-    private void saveInformation(Score playerInfo)
+    private void saveInformation(Player playerInfo)
     {
-        ArrayList<Score> list = null;
+        ArrayList<Player> list = null;
 
         Gson gson = new Gson();
         try
         {
-            list = gson.fromJson(msp.getString("scores",""),new TypeToken<List<Score>>(){}.getType());
+            list = gson.fromJson(msp.getString("scores",""),new TypeToken<List<Player>>(){}.getType());
         }
         catch(Exception e)
         {
@@ -168,54 +207,21 @@ public class GameActivity extends AppCompatActivity {
         if(list == null)
             list = new ArrayList<>();
 
-        if(list.size() >= 10 && list.get(9).getScore() > playerInfo.getScore())
+        if(list.size() >= 10 && list.get(9).getScore() < playerInfo.getScore())
         {
             list.remove(9);
 
             mygame.resetGame();
-            return;
         }
+
         list.add(playerInfo);
+        Collections.sort(list);
 
         msp.putString("scores",gson.toJson(list));
 //        for(int i = 0 ; i < list.size() ; i++)
 ////        {
 ////            Log.d("dddddddddddddddd" , ""+list.get(i));
 ////        }
-    }
-
-    private  void playMusic()
-    {
-        final MediaPlayer startRing = MediaPlayer.create(getApplicationContext() , R.raw.beep_race );
-
-        startRing.start();
-
-        musicStophandler = new Handler();
-        muRunnable = new Runnable() {
-            @Override
-            public void run() {
-                startRing.stop();
-               // musicStophandler.removeCallbacks(muRunnable);//timer
-
-                switch (getIntent().getExtras().getString("mode"))
-                {
-                    case "Slow":
-                        chooseSpeed = slowMode;
-                        loopFun(chooseSpeed );
-                        break;
-
-                    case "Fast":
-                        chooseSpeed = fastMode;
-                        loopFun(chooseSpeed );
-                        break;
-
-                    case "SS":
-
-                        break;
-                }
-            }
-        };
-        musicStophandler.postDelayed(muRunnable , 3000);
     }
 
     private void resetGame()
@@ -232,15 +238,28 @@ public class GameActivity extends AppCompatActivity {
         finish();
     }
 
-
     @Override
     protected void onStop() {
         super.onStop();
         timerHandler.removeCallbacks(timerRunnable);
-        //musicStophandler.removeCallbacks(muRunnable);
-
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        if(ssMode == true)
+            sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_UI);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(ssMode == true)
+            sensorManager.unregisterListener(sensorEventListener);
+    }
     /**
      * When the player returns to the activity it starts from the place he left it!
      */
@@ -248,12 +267,26 @@ public class GameActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         timerHandler.postDelayed(timerRunnable, chooseSpeed);
-       //musicStophandler.postDelayed(muRunnable , 3000);
-
     }
+
 
     private void animateItCode(ImageView lifeImg)
     {
         lifeImg.animate().scaleX(0).scaleY(0).setDuration(1500).setInterpolator(new BounceInterpolator()).start();
     }
+
+
+
+    SensorEventListener sensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            mygame.ssMovement(event , obstacleImg);
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+    };
+
 }

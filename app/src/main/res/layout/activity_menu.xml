@@ -8,8 +8,8 @@
     tools:context=".MenuActivity">
 
     <LinearLayout
-        android:layout_width="224dp"
-        android:layout_height="542dp"
+        android:layout_width="232dp"
+        android:layout_height="606dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,6 +47,17 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/roundedbutton"
             android:text="FAST"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/menu_ss_Btn"
+            android:layout_width="225dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/roundedbutton"
+            android:text="SS"
             android:textSize="30sp"
             android:textStyle="bold" />
 
