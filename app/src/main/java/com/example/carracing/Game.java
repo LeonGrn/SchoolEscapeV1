@@ -30,6 +30,8 @@ public class Game
     public void ssMovement(SensorEvent sensorEvent , ImageView[] cars)
     {
         float x = sensorEvent.values[0];
+        float y = sensorEvent.values[1];
+
         if(myStudent.getIndex() > STUDENT_INITIAL_POSITION - 2) {
             if (x > -3) {
                 cars[myStudent.getIndex()].setImageResource(0);

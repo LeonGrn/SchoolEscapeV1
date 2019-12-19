@@ -23,6 +23,7 @@ public class TopScoreActivity extends AppCompatActivity
 {
     private LinearLayout topscore_linear_layout;
     private Button topscore_btn_back;
+    private Button topscore_btn_map;
     MySharedPreferences msp;
 
     @Override
@@ -35,7 +36,10 @@ public class TopScoreActivity extends AppCompatActivity
 
         topscore_linear_layout = findViewById(R.id.topscore_linear_layout);
         topscore_btn_back = findViewById(R.id.topscore_btn_back);
+        topscore_btn_map = findViewById(R.id.topscore_btn_map);
+
         topscore_btn_back.setOnClickListener(goBack);
+        topscore_btn_map.setOnClickListener(showLocation);
 
         ArrayList<Player> scores = null;
         msp = new MySharedPreferences(this);
@@ -72,6 +76,15 @@ public class TopScoreActivity extends AppCompatActivity
         public void onClick(View v)
         {
             goToGameActivity();
+        }
+    };
+
+    View.OnClickListener showLocation = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View v)
+        {
+            //to open fragment
         }
     };
 

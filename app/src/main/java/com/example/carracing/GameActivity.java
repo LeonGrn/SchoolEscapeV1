@@ -22,6 +22,9 @@ import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -49,6 +52,7 @@ public class GameActivity extends AppCompatActivity {
     private String name = null;
     private double lat = 0;
     private double lon = 0;
+    private FusedLocationProviderClient fusedLocationProviderClient;
     private SensorManager sensorManager;
     private Sensor sensor;
 
@@ -70,6 +74,8 @@ public class GameActivity extends AppCompatActivity {
 
         sensorManager = (SensorManager) getSystemService(GameActivity.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         msp = new MySharedPreferences(this);
 
@@ -251,6 +257,13 @@ public class GameActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                myLocation = location;
+            }
+        });
+
         if(ssMode == true)
             sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_UI);
     }
