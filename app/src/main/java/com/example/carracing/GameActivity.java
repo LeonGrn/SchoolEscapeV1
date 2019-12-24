@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity  {
 
     private Button main_btn_leftbtn;
     private Button main_btn_rigthbtn;
@@ -224,10 +224,7 @@ public class GameActivity extends AppCompatActivity {
         Collections.sort(list);
 
         msp.putString("scores",gson.toJson(list));
-//        for(int i = 0 ; i < list.size() ; i++)
-////        {
-////            Log.d("dddddddddddddddd" , ""+list.get(i));
-////        }
+
     }
 
     private void resetGame()
@@ -257,7 +254,8 @@ public class GameActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>()
+        {
             @Override
             public void onSuccess(Location location) {
                 myLocation = location;
@@ -273,6 +271,7 @@ public class GameActivity extends AppCompatActivity {
         if(ssMode == true)
             sensorManager.unregisterListener(sensorEventListener);
     }
+
     /**
      * When the player returns to the activity it starts from the place he left it!
      */

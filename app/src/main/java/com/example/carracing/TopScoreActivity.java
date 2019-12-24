@@ -1,6 +1,9 @@
 package com.example.carracing;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,6 +29,11 @@ public class TopScoreActivity extends AppCompatActivity
     private Button topscore_btn_back;
     private Button topscore_btn_map;
     MySharedPreferences msp;
+    private boolean changeView = false;
+
+    private FragmentLocation fragment_a;
+    FragmentTransaction transaction = null;
+    Fragment frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,13 +50,22 @@ public class TopScoreActivity extends AppCompatActivity
         topscore_btn_back.setOnClickListener(goBack);
         topscore_btn_map.setOnClickListener(showLocation);
 
+//        frameLayout = getSupportFragmentManager().findFragmentById(R.id.fragmaentLocation);
+
+        fragment_a = new FragmentLocation(this);
+        transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.mainLayout, fragment_a).commit();
+        transaction = getSupportFragmentManager().beginTransaction();
+        transaction.hide(fragment_a).commit();
+
+
+
         ArrayList<Player> scores = null;
         msp = new MySharedPreferences(this);
         try
         {
             scores = new Gson().fromJson(msp.getString("scores","")
                             , new TypeToken<List<Player>>(){}.getType());
-//            Collections.sort(scores);
         }catch(Exception e)
         {
             e.printStackTrace();
@@ -84,9 +102,32 @@ public class TopScoreActivity extends AppCompatActivity
         @Override
         public void onClick(View v)
         {
-            //to open fragment
-        }
-    };
+            if(changeView == false)
+                showA();
+            else if(changeView == true)
+                hideA();
+    }};
+
+    private void showA()
+    {
+        changeView = true;
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().show(fragment_a).commit();
+
+        topscore_linear_layout.setVisibility(View.INVISIBLE);
+
+    }
+
+    private void hideA()
+    {
+        changeView = false;
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().hide(fragment_a).commit();
+        topscore_linear_layout.setVisibility(View.VISIBLE);
+
+    }
 
     private  void goToGameActivity()
     {
