@@ -12,6 +12,7 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -50,6 +51,8 @@ public class GameActivity extends AppCompatActivity  {
     private int slowMode = 500;
     private int score = 0;
     private String name = null;
+    private double lat = 0;
+    private double lon = 0;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private SensorManager sensorManager;
     private Sensor sensor;
@@ -211,17 +214,16 @@ public class GameActivity extends AppCompatActivity  {
         if(list == null)
             list = new ArrayList<>();
 
+        Log.e( "sadadssssssssssssasd",list.size()  + "");
 
-        list.add(playerInfo);
-        Collections.sort(list);
-
-        if(list.size() >= 11)
+        if(list.size() >= 10 && list.get(9).getScore() < playerInfo.getScore())
         {
-            list.remove(10);
-
+            list.remove(9);
             mygame.resetGame();
         }
 
+        list.add(playerInfo);
+        Collections.sort(list);
 
         msp.putString("scores",gson.toJson(list));
 
