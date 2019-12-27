@@ -50,8 +50,6 @@ public class GameActivity extends AppCompatActivity  {
     private int slowMode = 500;
     private int score = 0;
     private String name = null;
-    private double lat = 0;
-    private double lon = 0;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private SensorManager sensorManager;
     private Sensor sensor;
@@ -213,15 +211,17 @@ public class GameActivity extends AppCompatActivity  {
         if(list == null)
             list = new ArrayList<>();
 
-        if(list.size() >= 10 && list.get(9).getScore() < playerInfo.getScore())
+
+        list.add(playerInfo);
+        Collections.sort(list);
+
+        if(list.size() >= 11)
         {
-            list.remove(9);
+            list.remove(10);
 
             mygame.resetGame();
         }
 
-        list.add(playerInfo);
-        Collections.sort(list);
 
         msp.putString("scores",gson.toJson(list));
 

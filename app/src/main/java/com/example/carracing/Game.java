@@ -3,6 +3,7 @@ package com.example.carracing;
 import android.content.Context;
 import android.hardware.SensorEvent;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -32,17 +33,40 @@ public class Game
         float x = sensorEvent.values[0];
         float y = sensorEvent.values[1];
 
-        if(myStudent.getIndex() > STUDENT_INITIAL_POSITION - 2) {
-            if (x > -3) {
+        Log.i("testtt", x+"");
+        if((myStudent.getIndex() > STUDENT_INITIAL_POSITION - 2) && (myStudent.getIndex() < STUDENT_INITIAL_POSITION + 2))
+        {
+            if (x > -8 && x< -6)
+            {
                 cars[myStudent.getIndex()].setImageResource(0);
-                myStudent.setIndex(myStudent.getIndex() - 1);
+                myStudent.setIndex(STUDENT_INITIAL_POSITION + 2);
                 cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
             }
-        }
-        if(myStudent.getIndex() < STUDENT_INITIAL_POSITION + 2) {
-            if (x < 3) {
+
+            else if (x > -5 && x< -3)
+            {
                 cars[myStudent.getIndex()].setImageResource(0);
-                myStudent.setIndex(myStudent.getIndex() + 1);
+                myStudent.setIndex(STUDENT_INITIAL_POSITION + 1);
+                cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
+            }
+            else if (x > -2 && x< 2)
+            {
+                cars[myStudent.getIndex()].setImageResource(0);
+                myStudent.setIndex(STUDENT_INITIAL_POSITION);
+                cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
+            }
+
+            else if (x < 8 && x>6)
+            {
+                cars[myStudent.getIndex()].setImageResource(0);
+                myStudent.setIndex(STUDENT_INITIAL_POSITION - 2);
+                cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
+
+            }
+            else if (x < 5 && x>3)
+            {
+                cars[myStudent.getIndex()].setImageResource(0);
+                myStudent.setIndex(STUDENT_INITIAL_POSITION - 1);
                 cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
             }
         }

@@ -54,9 +54,10 @@ public class TopScoreActivity extends AppCompatActivity
 
         fragment_a = new FragmentLocation(this);
         transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.mainLayout, fragment_a).commit();
-        transaction = getSupportFragmentManager().beginTransaction();
-        transaction.hide(fragment_a).commit();
+        transaction.replace(R.id.mainLayout, fragment_a);
+//        transaction = getSupportFragmentManager().beginTransaction();
+        transaction.hide(fragment_a);
+        transaction.commit();
 
 
 
