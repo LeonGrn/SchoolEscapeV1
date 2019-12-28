@@ -33,27 +33,29 @@ public class Game
         float x = sensorEvent.values[0];
         float y = sensorEvent.values[1];
 
-        Log.i("testtt", x+"");
-        if((myStudent.getIndex() > STUDENT_INITIAL_POSITION - 2) && (myStudent.getIndex() < STUDENT_INITIAL_POSITION + 2))
+        if((myStudent.getIndex() >= STUDENT_INITIAL_POSITION - 2) && (myStudent.getIndex() <= STUDENT_INITIAL_POSITION + 2))
         {
-            if (x > -8 && x< -6)
+            if (x > -8 && x < -6)
             {
                 cars[myStudent.getIndex()].setImageResource(0);
                 myStudent.setIndex(STUDENT_INITIAL_POSITION + 2);
                 cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
+                return;
             }
 
-            else if (x > -5 && x< -3)
+            if (x > -5 && x< -3)
             {
                 cars[myStudent.getIndex()].setImageResource(0);
                 myStudent.setIndex(STUDENT_INITIAL_POSITION + 1);
                 cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
+                return;
             }
             else if (x > -2 && x< 2)
             {
                 cars[myStudent.getIndex()].setImageResource(0);
                 myStudent.setIndex(STUDENT_INITIAL_POSITION);
                 cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
+                return;
             }
 
             else if (x < 8 && x>6)
@@ -61,13 +63,16 @@ public class Game
                 cars[myStudent.getIndex()].setImageResource(0);
                 myStudent.setIndex(STUDENT_INITIAL_POSITION - 2);
                 cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
+                return;
 
             }
+
             else if (x < 5 && x>3)
             {
                 cars[myStudent.getIndex()].setImageResource(0);
                 myStudent.setIndex(STUDENT_INITIAL_POSITION - 1);
                 cars[myStudent.getIndex()].setImageResource(R.drawable.ic_student);
+                return;
             }
         }
     }

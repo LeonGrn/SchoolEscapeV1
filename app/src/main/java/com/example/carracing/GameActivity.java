@@ -125,7 +125,7 @@ public class GameActivity extends AppCompatActivity  {
             case "ss":
                 chooseSpeed = fastMode;
                 if(ssMode == false)
-                    sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_UI);
+                    sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_GAME);
 
                 ssMode = true;
                 main_btn_leftbtn.setVisibility(View.GONE);
