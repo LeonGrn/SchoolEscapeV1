@@ -33,7 +33,6 @@ public class TopScoreActivity extends AppCompatActivity
 
     private FragmentLocation fragment_a;
     FragmentTransaction transaction = null;
-    Fragment frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,15 +49,11 @@ public class TopScoreActivity extends AppCompatActivity
         topscore_btn_back.setOnClickListener(goBack);
         topscore_btn_map.setOnClickListener(showLocation);
 
-//        frameLayout = getSupportFragmentManager().findFragmentById(R.id.fragmaentLocation);
-
         fragment_a = new FragmentLocation(this);
         transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.mainLayout, fragment_a);
-//        transaction = getSupportFragmentManager().beginTransaction();
         transaction.hide(fragment_a);
         transaction.commit();
-
 
 
         ArrayList<Player> scores = null;
@@ -73,7 +68,7 @@ public class TopScoreActivity extends AppCompatActivity
             scores = new ArrayList<>();
         }
 
-
+        //create textview for players from SP
         if(scores != null) {
             for (int i = 0; i < scores.size(); i++) {
                 TextView textView = new TextView(this);
@@ -98,6 +93,7 @@ public class TopScoreActivity extends AppCompatActivity
         }
     };
 
+    //change between fragmant and activity
     View.OnClickListener showLocation = new View.OnClickListener()
     {
         @Override
@@ -115,9 +111,6 @@ public class TopScoreActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().show(fragment_a).commit();
-
-        topscore_linear_layout.setVisibility(View.INVISIBLE);
-
     }
 
     private void hideA()
@@ -126,8 +119,6 @@ public class TopScoreActivity extends AppCompatActivity
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().hide(fragment_a).commit();
-        topscore_linear_layout.setVisibility(View.VISIBLE);
-
     }
 
     private  void goToGameActivity()

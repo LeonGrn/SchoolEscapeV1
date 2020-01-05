@@ -45,14 +45,11 @@ public class GameActivity extends AppCompatActivity  {
     private Runnable timerRunnable;
     private TextView main_text_score;
     private GridLayout main_LAY_gridlayout;
-    private int speedUp = 1;
     private static int chooseSpeed = 0;
     private int fastMode = 300;
     private int slowMode = 500;
     private int score = 0;
     private String name = null;
-    private double lat = 0;
-    private double lon = 0;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private SensorManager sensorManager;
     private Sensor sensor;
@@ -176,7 +173,7 @@ public class GameActivity extends AppCompatActivity  {
         }
     };
 
-    private void addPlayerToScoreView()
+    private void addPlayerToScoreView()//dialog
     {
         final Player playerInfo = new Player(score , name , myLocation);
         final EditText result = new EditText(this);
@@ -213,8 +210,6 @@ public class GameActivity extends AppCompatActivity  {
         }
         if(list == null)
             list = new ArrayList<>();
-
-        Log.e( "sadadssssssssssssasd",list.size()  + "");
 
         if(list.size() >= 10 && list.get(9).getScore() < playerInfo.getScore())
         {
@@ -253,7 +248,7 @@ public class GameActivity extends AppCompatActivity  {
     protected void onStart() {
         super.onStart();
     }
-
+    //get location
     protected void onResume() {
         super.onResume();
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>()
@@ -267,6 +262,7 @@ public class GameActivity extends AppCompatActivity  {
         if(ssMode == true)
             sensorManager.registerListener(sensorEventListener, sensor, SensorManager.SENSOR_DELAY_UI);
     }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -302,5 +298,4 @@ public class GameActivity extends AppCompatActivity  {
 
         }
     };
-
 }

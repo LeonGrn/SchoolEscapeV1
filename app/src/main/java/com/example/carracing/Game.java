@@ -3,15 +3,13 @@ package com.example.carracing;
 import android.content.Context;
 import android.hardware.SensorEvent;
 import android.media.MediaPlayer;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.RawRes;
 
 import java.util.ArrayList;
-
+//game logics
 public class Game
 {
     private final int COIN = 3;
@@ -28,10 +26,10 @@ public class Game
 
     private MediaPlayer mpSound = null;
 
+    //sensor movement
     public void ssMovement(SensorEvent sensorEvent , ImageView[] cars)
     {
         float x = sensorEvent.values[0];
-        float y = sensorEvent.values[1];
 
         if((myStudent.getIndex() >= STUDENT_INITIAL_POSITION - 2) && (myStudent.getIndex() <= STUDENT_INITIAL_POSITION + 2))
         {
@@ -138,11 +136,6 @@ public class Game
             else
                 RockPosition.remove(i);
         }
-//        if(setTime % 2 == 0)//Create only one time rock
-//        {
-//            RockPosition.add(new Obstacle( ROCK, randobstacle()));
-//            Log.i("Time:" , " " + setTime);
-//        }
 
         setTime += 1;
 
@@ -155,8 +148,6 @@ public class Game
 
         return 0;
     }
-
-
 
     public void drawScene(ImageView[] obstacleImg)//draw the rocks on the map
     {

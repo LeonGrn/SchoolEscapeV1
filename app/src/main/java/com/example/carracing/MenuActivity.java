@@ -48,7 +48,7 @@ public class MenuActivity extends AppCompatActivity
         checkAndRequestPermissions();
 
     }
-
+    //take permenssions
     private  boolean checkAndRequestPermissions()
     {
         int locationPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
@@ -96,7 +96,6 @@ public class MenuActivity extends AppCompatActivity
         public void onClick(View v)
         {
             Intent intent = new Intent(MenuActivity.this, TopScoreActivity.class);
-            //intent.putExtra("score", getIntent().getExtras().getString("score"));
             startActivity(intent);
             finish();
         }
