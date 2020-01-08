@@ -74,11 +74,13 @@ public class FragmentLocation extends Fragment implements OnMapReadyCallback
 
         int i = 1;
         LatLng pos = null;
-
-        for (Player score : list)
+        if(list != null)
         {
-            pos = new LatLng(score.getLat(), score.getLon());
-            googleMap.addMarker(new MarkerOptions().position(pos).title((i++) + ") " + score.getName()));
+            for (Player score : list)
+            {
+                pos = new LatLng(score.getLat(), score.getLon());
+                googleMap.addMarker(new MarkerOptions().position(pos).title((i++) + ") " + score.getName()));
+            }
         }
 
         if (pos != null)
